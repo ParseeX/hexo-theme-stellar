@@ -28,6 +28,14 @@ welcome:
     .welcome-card p {
       margin: 0.35rem 0;
     }
+    .welcome-card blur {
+      filter: blur(4px);
+      transition: all 0.2s ease-out;
+    }
+
+    .welcome-card blur:hover {
+      filter: blur(0);
+    }
 
     #welcome-location {
       color: pink;
@@ -44,7 +52,7 @@ welcome:
         欢迎 <span id="welcome-location">远方</span> 的小伙伴访问我的主页
       </p>
       <p>
-        您的IP：<span id="welcome-ip">获取中...</span>
+        <blur id="welcome-ip">获取中...</blur>
       </p>
     </div>
 
@@ -77,16 +85,8 @@ welcome:
       }
 
       locationEl.textContent = locationText || '远方';
-      ipEl.textContent = maskIp(ip);
+      ipEl.textContent = ip || '未知';
     };
-
-    function maskIp(ip) {
-      if (!ip) return '未知';
-      if (ip.indexOf('.') !== -1) {
-        return ip.replace(/\.\d+$/, '.***');
-      }
-      return ip.slice(0, 8) + '...';
-    }
 
     (function() {
       var key = 'NTYBZ-U5ZC7-SANXS-HVKJB-SUUH7-XOFPY';
