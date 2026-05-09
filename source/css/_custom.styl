@@ -1,5 +1,75 @@
 @require('_defines/const')
 
+.post-title-with-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.post-type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+
+  color: #fff;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.post-type-project {
+  background: linear-gradient(135deg, #2f6df6, #5b8cff);
+}
+
+.post-type-debug {
+  background: linear-gradient(135deg, #ef3340, #ff6670);
+}
+
+.post-type-note {
+  background: linear-gradient(135deg, #13a86b, #38c98b);
+}
+
+.post-type-talk {
+  background: linear-gradient(135deg, #f39a22, #ffbd57);
+}
+
+.post-title-text {
+  vertical-align: middle;
+}
+
+
+
+.post-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 8px;
+  color: var(--text-p3);
+  line-height: inherit;
+}
+
+.post-tag {
+  white-space: nowrap;
+  font-size: 0.875em;
+  font-weight: inherit;
+}
+
+.post-tag::before {
+  content: "#";
+  margin-right: 2px;
+  color: var(--text-p4);
+}
+
+
+
 // font family
 $ff-body = convert(hexo-config('style.font-family.body'))
 $ff-code = convert(hexo-config('style.font-family.code'))

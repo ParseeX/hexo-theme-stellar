@@ -46,7 +46,46 @@ function div_default() {
 
   // 标题
   el += '<h2 class="post-title">';
+
+  let categoryName = '';
+  if (post.categories && post.categories.length) {
+    categoryName = post.categories.data[0].name;
+  }
+
+  const categoryTypeMap = {
+    '个人项目': {
+      text: 'PROJECT',
+      className: 'project'
+    },
+    '问题排查': {
+      text: 'DEBUG',
+      className: 'debug'
+    },
+    '日常排错': {
+      text: 'DEBUG',
+      className: 'debug'
+    },
+    '技术笔记': {
+      text: 'NOTE',
+      className: 'note'
+    },
+    '杂谈': {
+      text: 'TALK',
+      className: 'talk'
+    }
+  };
+
+  const badge = categoryTypeMap[categoryName];
+
+  el += '<span class="post-title-with-badge">';
+  if (badge) {
+    el += '<span class="post-type post-type-' + badge.className + '">' + badge.text + '</span>';
+  }
+  el += '<span class="post-title-text">';
   el += post.title ? post.title : date(post.date, config.date_format);
+  el += '</span>';
+  el += '</span>';
+
   el += '</h2>';
 
   // 摘要
@@ -74,24 +113,18 @@ function div_default() {
   el += `<time datetime="${date_xml(post.date)}">${date(post.date, config.date_format)}</time>`
   el += '</span>';
   // cat
-  if (post.categories && post.categories.length > 0) {
-    if (post.layout === 'post' && post.categories && post.categories.length > 0) {
-      var cats = [];
-      if (post.categories) {
-        post.categories.forEach((cat, i) => {
-          cats.push(cat.name);
-        });
-      }
-      if (cats.length > 0) {
-        let str = cats.join(' / ');
-        let lastCat = cats.pop();
-        el += '<span class="cap breadcrumb"' + category_color(lastCat) + '>';
-        el += icon('default:category')
-        el += `<span>${str}</span>`
-        el += '</span>';
-      }
-    }
+  
+  // tags
+  if (post.tags && post.tags.length > 0) {
+    el += '<span class="post-tags">';
+    post.tags.data.slice(0, 4).forEach(function(tag) {
+      el += '<span class="post-tag">';
+      el += tag.name;
+      el += '</span>';
+    });
+    el += '</span>';
   }
+  
   if (post.sticky) {
     el += `<span class="pin">${icon('default:pin')}</span>`
   }

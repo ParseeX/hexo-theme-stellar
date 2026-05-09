@@ -15,6 +15,91 @@ ghissues:
   labels: # 过滤只显示具有某些标签的issues
 
 # 将其覆盖设置为空，可删除一个默认组件，例如 welcome:
+welcome:
+  layout: markdown
+  title:
+  content: |
+    <style>
+    .welcome-card {
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .welcome-card p {
+      margin: 0.35rem 0;
+    }
+
+    #welcome-location {
+      color: pink;
+      font-weight: 700;
+    }
+
+    #welcome-ip {
+      color: orange;
+    }
+    </style>
+
+    <div class="welcome-card">
+      <p>
+        欢迎 <span id="welcome-location">远方</span> 的小伙伴访问我的主页
+      </p>
+      <p>
+        您的IP：<span id="welcome-ip">获取中...</span>
+      </p>
+    </div>
+
+    <script>
+    window.showWelcomeLocation = function(res) {
+      var locationEl = document.getElementById('welcome-location');
+      var ipEl = document.getElementById('welcome-ip');
+
+      if (!locationEl || !ipEl) return;
+
+      if (!res || res.status !== 0 || !res.result) {
+        locationEl.textContent = '远方';
+        ipEl.textContent = '获取失败';
+        return;
+      }
+
+      var ad = res.result.ad_info || {};
+      var ip = res.result.ip || '';
+
+      var nation = ad.nation || '';
+      var province = ad.province || '';
+      var city = ad.city || '';
+
+      var locationText = '';
+
+      if (nation === '中国') {
+        locationText = [province, city].filter(Boolean).join('');
+      } else {
+        locationText = [nation, province, city].filter(Boolean).join('');
+      }
+
+      locationEl.textContent = locationText || '远方';
+      ipEl.textContent = maskIp(ip);
+    };
+
+    function maskIp(ip) {
+      if (!ip) return '未知';
+      if (ip.indexOf('.') !== -1) {
+        return ip.replace(/\.\d+$/, '.***');
+      }
+      return ip.slice(0, 8) + '...';
+    }
+
+    (function() {
+      var key = 'NTYBZ-U5ZC7-SANXS-HVKJB-SUUH7-XOFPY';
+
+      var script = document.createElement('script');
+      script.src =
+        'https://apis.map.qq.com/ws/location/v1/ip?key=' +
+        encodeURIComponent(key) +
+        '&output=jsonp&callback=showWelcomeLocation';
+
+      document.body.appendChild(script);
+    })();
+    </script>
 # Recent update
 recent:
   layout: recent
