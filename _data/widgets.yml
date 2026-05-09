@@ -52,7 +52,7 @@ welcome:
         欢迎 <span id="welcome-location">远方</span> 的小伙伴访问我的主页
       </p>
       <p>
-        <blur id="welcome-ip">获取中...</blur>
+        您的IP：<blur id="welcome-ip">获取中...</blur>
       </p>
     </div>
 
