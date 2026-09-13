@@ -58,7 +58,7 @@
           animation: spin infinite 4s
           animation-timing-function: linear
 
-  a.title
+  a.title, .title.split-title
     font-size: 1.5rem
     font-weight: 900
     color: inherit
@@ -76,7 +76,10 @@
       bottom: 0
       transform: translateY(8px)
       overflow: visible
-    &:hover
+    .subtitle-link
+      display: block
+      position: relative
+    &:not(.split-title):hover, .subtitle-link:hover
       .normal
         opacity: 0
         transform: translateY(-8px)

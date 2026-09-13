@@ -22,9 +22,11 @@ if (page.logo) {
 // logo.icon, logo.title, logo.subtitle, logo.url
 function layoutTitle(main, url, sub) {
   var el = ''
-  el += `<a class="title" href="${url || "/"}">`
-  el += `<div class="main">${main}</div>`
+  const separate = sub && logo.subtitle_link
+  el += separate ? '<div class="title split-title">' : `<a class="title" href="${url || "/"}">`
+  el += separate ? `<a class="main" href="${url || "/"}">${main}</a>` : `<div class="main">${main}</div>`
   if (sub) {
+    if (separate) el += `<a class="subtitle-link" href="${logo.subtitle_link}">`
     const arr = sub.split('|')
     if (arr.length > 1) {
       el += `<div class="sub normal cap">${arr.shift().trim()}</div>`
@@ -32,8 +34,9 @@ function layoutTitle(main, url, sub) {
     } else {
       el += `<div class="sub cap">${sub}</div>`
     }
+    if (separate) el += '</a>'
   }
-  el += `</a>`
+  el += separate ? '</div>' : '</a>'
   return el
 }
 
