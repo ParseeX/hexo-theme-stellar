@@ -104,6 +104,9 @@ function layoutWidgets() {
       }
       if (widget && widget.layout) {
         el += partial('../widgets/' + widget.layout, {item: widget})
+        if (widget.layout === 'recent') {
+          el += partial('../widgets/random_recipe')
+        }
       }
     });
   }

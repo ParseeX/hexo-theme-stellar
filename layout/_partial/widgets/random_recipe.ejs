@@ -1,0 +1,25 @@
+<% const recipes = site.pages.filter(p => p.notebook === 'recipes' && p.title && (p.banner || p.cover)).map(p => ({title: p.title, url: pretty_url(p.path), image: url_for(p.banner || p.cover)})); %>
+<% if (recipes.length) { %>
+<widget class="widget-wrapper random-recipe" data-recipes="<%= JSON.stringify(recipes) %>">
+  <div class="widget-header"><span class="name">随机菜谱</span></div>
+  <div class="widget-body">
+    <a class="recipe-pick" href="<%= recipes[0].url %>">
+      <img src="<%= recipes[0].image %>" alt="<%= recipes[0].title %>" loading="lazy" decoding="async">
+      <span class="recipe-name"><%= recipes[0].title %></span>
+    </a>
+  </div>
+</widget>
+<script>
+(() => {
+  const widget = document.currentScript.previousElementSibling;
+  const recipes = JSON.parse(widget.dataset.recipes);
+  const recipe = recipes[Math.floor(Math.random() * recipes.length)];
+  const link = widget.querySelector('a');
+  const image = widget.querySelector('img');
+  link.href = recipe.url;
+  image.src = recipe.image;
+  image.alt = recipe.title;
+  widget.querySelector('.recipe-name').textContent = recipe.title;
+})();
+</script>
+<% } %>

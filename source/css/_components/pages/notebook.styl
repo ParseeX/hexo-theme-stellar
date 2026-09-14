@@ -97,3 +97,22 @@
       margin: .5rem 0 .75rem
       p
         margin: 0
+
+// 左侧栏随机菜谱入口。
+.random-recipe .recipe-pick
+  display: block
+  overflow: hidden
+  border-radius: 12px
+  background: var(--card)
+  color: var(--text-p1)
+  img
+    display: block
+    width: 100%
+    aspect-ratio: 4 / 3
+    object-fit: cover
+  .recipe-name
+    display: block
+    padding: .65rem .75rem
+    font-size: .875rem
+  &:hover
+    color: var(--theme)
