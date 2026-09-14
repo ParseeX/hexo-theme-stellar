@@ -1,9 +1,13 @@
 <%# 笔记卡片 %>
 <article class="md-text">
-  <% if (note.cover) { %>
+  <% const isRecipe = typeof recipeGrid !== 'undefined' && recipeGrid;
+     const cover = isRecipe ? (note.banner || note.cover) : note.cover; %>
+  <% if (cover) { %>
     <div class="post-cover">
-      <img src="<%= note.cover %>" alt="cover" />
+      <img src="<%= url_for(cover) %>" alt="<%= note.title %>" loading="lazy" decoding="async" />
     </div>
+  <% } else if (isRecipe) { %>
+    <div class="post-cover recipe-placeholder"><span>暂无封面</span></div>
   <% } %>
   <h2 class="post-title"><%= note.title %></h2>
   <div class="excerpt<% if (theme.plugins.heti?.enable) { %> heti<% } %>">
