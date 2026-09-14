@@ -149,7 +149,7 @@ function generate_canonical() {
     <% }) %>
   <% } %>
 
-  <link rel="stylesheet" href="<%- url_for(`${theme.stellar.main_css}?v=${stellar_info('version')}`) %>">
+  <link rel="stylesheet" href="<%- url_for(`${theme.stellar.main_css}?v=${theme.stellar.css_version || stellar_info('version')}`) %>">
 
 
   <% if (config.favicon) { %>
