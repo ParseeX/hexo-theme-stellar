@@ -17,3 +17,6 @@ function layoutDiv() {
 %>
 
 <%- layoutDiv() %>
+<% if (theme.comments.artalk.legacy_comments_url) { %>
+<p class="cap" style="margin-top:16px"><a href="<%= theme.comments.artalk.legacy_comments_url %>" target="_blank" rel="noopener noreferrer">查看旧版评论区的历史留言</a></p>
+<% } %>
