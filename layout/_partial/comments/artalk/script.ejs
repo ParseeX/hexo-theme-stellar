@@ -23,6 +23,26 @@
             server: '<%= theme.comments.artalk.server %>',
             site: '<%= theme.comments.artalk.site %>',
             darkMode: '<%= theme.comments.artalk.darkMode %>',
+            <% if (theme.comments.artalk.anonymous) { %>
+            beforeSubmit(editor, next) {
+              const fields = editor.getHeaderInputEls();
+              const user = artalk.ctx.getUser();
+              const current = user.getData();
+              // 已登录的管理员沿用自己的身份，不替换其邮箱。
+              if (!current.token) {
+                let email = fields.email.value.trim();
+                if (!email) {
+                  try { email = localStorage.getItem('xyk-artalk-anonymous-email') || ''; } catch (_) {}
+                  if (!/^guest-[a-f0-9-]+@anonymous\.invalid$/.test(email)) {
+                    email = 'guest-' + crypto.randomUUID() + '@anonymous.invalid';
+                    try { localStorage.setItem('xyk-artalk-anonymous-email', email); } catch (_) {}
+                  }
+                }
+                user.update({name: fields.name.value.trim() || '匿名用户', email, link: ''});
+              }
+              next();
+            },
+            <% } %>
             <% if (theme.comments.artalk.imageUploader?.api) { %>
             imgUploader: function(file) {
               let headers = new Headers();
@@ -41,6 +61,22 @@
               },
             <% } %>
           });
+          <% if (theme.comments.artalk.anonymous) { %>
+          function simplifyGuestFields() {
+            const fields = artalk.ctx.inject('editor').getHeaderInputEls();
+            fields.name.placeholder = '昵称（选填，留空为匿名用户）';
+            fields.email.placeholder = '邮箱（选填）';
+            fields.link.hidden = true;
+            fields.link.style.display = 'none';
+            fields.name.style.width = '50%';
+            fields.email.style.width = '50%';
+            // 内部匿名标识不展示为邮箱，也不要求访客记住它。
+            if (/^guest-[a-f0-9-]+@anonymous\.invalid$/.test(fields.email.value)) fields.email.value = '';
+          }
+          artalk.on('mounted', simplifyGuestFields);
+          artalk.on('list-loaded', simplifyGuestFields);
+          artalk.on('user-changed', () => queueMicrotask(simplifyGuestFields));
+          <% } %>
         });
       }
       
